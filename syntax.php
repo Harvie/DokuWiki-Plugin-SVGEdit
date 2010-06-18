@@ -52,23 +52,26 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				if ($format!='xhtml') return;
 				global $ID;
 
+//				$renderer->doc .= "<!-- _X_X_ ".  strtolower($_SERVER['HTTP_USER_AGENT']) .  "-->";
+				$is_webkit= preg_match('/webkit/',  strtolower($_SERVER['HTTP_USER_AGENT'])  ); // dirty, but fast /n3k/
+				if ($is_webkit) { $svgtag='<img src="' ; }
+				else  { $svgtag='<object data="'; }
 				if($data[0]==='<svg') {
 					$svgenc = 'data:image/svg+xml;base64,'.base64_encode($data[1]).'" type="image/svg+xml';
-        	$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" /><img src="'.$svgenc.'" alt="svg-image@'.$ID.'" /></a>'."<br />";
+					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="svg-image@'.$ID.'" /></a>'."<br />";
 					return true;
 				}
 				if($data[0]==='{{sv') {
 					$data[1] = trim(substr($data[1], 6, -2));
 					$svgenc = exportlink($data[1],'svg');
-					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" /><img src="'.$svgenc.'" alt="image:'.htmlspecialchars($data[1]).'" type="image/svg+xml"/></a><br />';
-					//$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" /><object data="'.$svgenc.'" type="image/svg+xml" width="100%"><img src="'.$svgenc.'" alt="image:'.htmlspecialchars($data[1]).'" type="image/svg+xml"/></object></a><br />'; //scrollbars on webkit :-(
+					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="image:'.htmlspecialchars($data[1]).'" type="image/svg+xml"/></a><br />';
 					$renderer->doc .= html_wikilink($data[1],'svg@'.$data[1]);
         	return true;
 				}
 				if($data[0]==='{{SV') {
 					$data[1] = trim(substr($data[1], 6, -2));
 					$svgenc = 'data:image/svg+xml;base64,'.base64_encode(rawWiki($data[1])).'" type="image/svg+xml';
-					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" /><img src="'.$svgenc.'" alt="image:'.htmlspecialchars($data[1]).'" /></a><br />';
+					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="image:'.htmlspecialchars($data[1]).'" /></a><br />'; 
 					$renderer->doc .= html_wikilink($data[1],'SVG@'.$data[1]);
         	return true;
 				}
