@@ -26,7 +26,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
     function getInfo() { 
             return array('author' => 'Thomas Mudrunka',
                          'email'  => 'harvie--email-cz',
-                         'date'   => '2010-02-21',
+                         'date'   => '2010-06-20',
                          'name'   => 'SVG-Edit Plugin',
                          'desc'   => 'Nice way, to create, store, edit and embed SVG images into DokuWiki',
                          'url'    => 'http://www.dokuwiki.org/plugin:svgedit'
