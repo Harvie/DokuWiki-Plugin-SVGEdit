@@ -48,11 +48,8 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
         return array($type, $match); 
     }
 
-    function render($format, &$renderer, $data) {
-				if ($format!='xhtml') return;
+		function format_svg_embed($svglink, $alt) {
 				global $ID;
-
-				$svg_wiki_page = trim(substr($data[1], 6, -2)); //name of wiki page containing SVG image
 
 				//detect image size for stupid browsers (like firefox) - ugly (fails if svg does not contain information about it's size)
 				$svg_dimensions = '';
@@ -62,25 +59,38 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				//use object tag for stupid browsers (like firefox) - ugly (relies on browser identification)
 				$is_webkit= preg_match('/webkit/', strtolower($_SERVER['HTTP_USER_AGENT']));
 				if ($is_webkit)
-					$svgtag='<img src="';
+					$svgtag='img src';
 				else
-					$svgtag='<object '.$svg_dimensions.' data="';
+					$svgtag='object '.$svg_dimensions.' data';
+
+				return '<a href="'.$svglink.'" type="image/svg+xml" /><'.$svgtag.'="'.$svglink.'" alt="'.$alt.'" type="image/svg+xml" /></a>'."<br />";
+		}
+
+    function render($format, &$renderer, $data) {
+				if ($format!='xhtml') return;
+				global $ID;
+
+				$svg_wiki_page = trim(substr($data[1], 6, -2)); //name of wiki page containing SVG image
+
+
 
 
 				if($data[0]==='<svg') {
-					$svgenc = 'data:image/svg+xml;base64,'.base64_encode($data[1]).'" type="image/svg+xml';
-					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="svg-image@'.$ID.'" /></a>'."<br />";
+					$svglink = 'data:image/svg+xml;base64,'.base64_encode($data[1]).'" type="image/svg+xml';
+					$renderer->doc .= $this->format_svg_embed($svglink, 'svg-image@'.$ID);
 					return true;
 				}
 				if($data[0]==='{{sv') {
-					$svgenc = exportlink($svg_wiki_page,'svg');
-					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="image:'.htmlspecialchars($svg_wiki_page).'" type="image/svg+xml"/></a><br />';
+					$svglink = exportlink($svg_wiki_page,'svg');
+					$renderer->doc .= $this->format_svg_embed($svglink, 'image:'.htmlspecialchars($svg_wiki_page));
+		//$renderer->doc .= '<a href="'.$svglink.'" type="image/svg+xml" />'.$svgtag.$svglink.'" alt="image:'.htmlspecialchars($svg_wiki_page).'" type="image/svg+xml"/></a><br />';
 					$renderer->doc .= html_wikilink($svg_wiki_page,'svg@'.$svg_wiki_page);
         	return true;
 				}
 				if($data[0]==='{{SV') {
-					$svgenc = 'data:image/svg+xml;base64,'.base64_encode(rawWiki($svg_wiki_page)).'" type="image/svg+xml';
-					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="image:'.htmlspecialchars($svg_wiki_page).'" /></a><br />'; 
+					$svglink = 'data:image/svg+xml;base64,'.base64_encode(rawWiki($svg_wiki_page)).'" type="image/svg+xml';
+					$renderer->doc .= $this->format_svg_embed($svglink, 'image:'.htmlspecialchars($svg_wiki_page));
+		//$renderer->doc .= '<a href="'.$svglink.'" type="image/svg+xml" />'.$svgtag.$svglink.'" alt="image:'.htmlspecialchars($svg_wiki_page).'" /></a><br />'; 
 					$renderer->doc .= html_wikilink($svg_wiki_page,'SVG@'.$svg_wiki_page);
         	return true;
 				}
