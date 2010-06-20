@@ -48,7 +48,11 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
         return array($type, $match); 
     }
 
-		function format_svg_embed($svglink, $alt) {
+		function svg_base64_encode($svg) { //create base64 encoded svg for use as svglink in svg_format_embed
+			return 'data:image/svg+xml;base64,'.base64_encode($svg).'" type="image/svg+xml';
+		}
+
+		function svg_format_embed($svglink, $alt) { //create xhtml code for svg embeding
 				global $ID;
 
 				//detect image size for stupid browsers (like firefox) - ugly (fails if svg does not contain information about it's size)
@@ -72,25 +76,20 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 
 				$svg_wiki_page = trim(substr($data[1], 6, -2)); //name of wiki page containing SVG image
 
-
-
-
 				if($data[0]==='<svg') {
-					$svglink = 'data:image/svg+xml;base64,'.base64_encode($data[1]).'" type="image/svg+xml';
-					$renderer->doc .= $this->format_svg_embed($svglink, 'svg-image@'.$ID);
+					$svgenc = $this->svg_base64_encode($data[1]);
+					$renderer->doc .= $this->svg_format_embed($svgenc, 'svg-image@'.$ID);
 					return true;
 				}
 				if($data[0]==='{{sv') {
 					$svglink = exportlink($svg_wiki_page,'svg');
-					$renderer->doc .= $this->format_svg_embed($svglink, 'image:'.htmlspecialchars($svg_wiki_page));
-		//$renderer->doc .= '<a href="'.$svglink.'" type="image/svg+xml" />'.$svgtag.$svglink.'" alt="image:'.htmlspecialchars($svg_wiki_page).'" type="image/svg+xml"/></a><br />';
+					$renderer->doc .= $this->svg_format_embed($svglink, 'image:'.htmlspecialchars($svg_wiki_page));
 					$renderer->doc .= html_wikilink($svg_wiki_page,'svg@'.$svg_wiki_page);
         	return true;
 				}
 				if($data[0]==='{{SV') {
-					$svglink = 'data:image/svg+xml;base64,'.base64_encode(rawWiki($svg_wiki_page)).'" type="image/svg+xml';
-					$renderer->doc .= $this->format_svg_embed($svglink, 'image:'.htmlspecialchars($svg_wiki_page));
-		//$renderer->doc .= '<a href="'.$svglink.'" type="image/svg+xml" />'.$svgtag.$svglink.'" alt="image:'.htmlspecialchars($svg_wiki_page).'" /></a><br />'; 
+					$svgenc = $this->svg_base64_encode(rawWiki($svg_wiki_page));
+					$renderer->doc .= $this->svg_format_embed($svgenc, 'image:'.htmlspecialchars($svg_wiki_page));
 					$renderer->doc .= html_wikilink($svg_wiki_page,'SVG@'.$svg_wiki_page);
         	return true;
 				}
