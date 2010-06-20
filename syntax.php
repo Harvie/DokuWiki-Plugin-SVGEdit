@@ -52,10 +52,11 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				if ($format!='xhtml') return;
 				global $ID;
 
-//				$renderer->doc .= "<!-- _X_X_ ".  strtolower($_SERVER['HTTP_USER_AGENT']) .  "-->";
 				$is_webkit= preg_match('/webkit/',  strtolower($_SERVER['HTTP_USER_AGENT'])  ); // dirty, but fast /n3k/
-				if ($is_webkit) { $svgtag='<img src="' ; }
-				else  { $svgtag='<object data="'; }
+				if ($is_webkit)
+					$svgtag='<img src="';
+				else
+					$svgtag='<object data="';
 				if($data[0]==='<svg') {
 					$svgenc = 'data:image/svg+xml;base64,'.base64_encode($data[1]).'" type="image/svg+xml';
 					$renderer->doc .= '<a href="'.$svgenc.'" type="image/svg+xml" />'.$svgtag.$svgenc.'" alt="svg-image@'.$ID.'" /></a>'."<br />";
