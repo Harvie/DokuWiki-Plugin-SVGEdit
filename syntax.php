@@ -56,7 +56,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 
 				//detect image size for stupid browsers (like firefox) - ugly (fails if svg does not contain information about it's size)
 				$svg_dimensions = '';
-				preg_match('/width="[0-9]+" height="[0-9]+"/', rawWiki($svg_wiki_page), $_);
+				preg_match('/width="[0-9]+" height="[0-9]+"/', $data[1].rawWiki($svg_wiki_page), $_);
 				if(isset($_[0])) $svg_dimensions = $_[0];
 
 				//use object tag for stupid browsers (like firefox) - ugly (relies on browser identification)
