@@ -2,6 +2,10 @@ A nice way, to create, store, edit, and embed SVG images in DokuWiki
 ScreenShot: http://img189.imageshack.us/img189/909/dokuwikisvgeditplugin.png
 See: http://www.dokuwiki.org/plugin:svgedit
 
+SVG-Edit
+  - homepage: http://code.google.com/p/svg-edit/
+  - bugtrack: http://code.google.com/p/svg-edit/issues/
+
 Non-GIT Contributors:
 	- i.crowther@gmail.com
 
