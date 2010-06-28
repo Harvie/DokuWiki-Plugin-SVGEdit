@@ -52,7 +52,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 			return 'data:image/svg+xml;base64,'.base64_encode($svg).'" type="image/svg+xml';
 		}
 
-		function svg_format_embed($svglink, $alt, $svg_parameters) { //create xhtml code for svg embeding
+		function svg_format_embed($svglink, $title, $svg_parameters) { //create xhtml code for svg embeding
 				global $ID;
 
 				//use object tag for stupid browsers (like firefox) - ugly (relies on browser identification)
@@ -62,7 +62,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				else
 					$svgtag='object '.$svg_parameters.' data';
 
-				return '<a href="'.$svglink.'" type="image/svg+xml" /><'.$svgtag.'="'.$svglink.'" alt="'.$alt.'" type="image/svg+xml" /></a>'."<br />";
+				return '<a href="'.$svglink.'" type="image/svg+xml" /><'.$svgtag.'="'.$svglink.'" alt="'.$title.'" title="'.$title.'" type="image/svg+xml" /></a>'."<br />";
 		}
 
     function render($format, &$renderer, $data) {
@@ -78,19 +78,19 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 
 				if($data[0]==='<svg') {
 					$svgenc = $this->svg_base64_encode($data[1]);
-					$renderer->doc .= $this->svg_format_embed($svgenc, 'svg-image@'.$ID, $svg_dimensions);
+					$renderer->doc .= $this->svg_format_embed($svgenc, 'inline-svg@'.$ID, $svg_dimensions);
 					return true;
 				}
 				if($data[0]==='{{sv') {
 					$svglink = exportlink($svg_wiki_page,'svg');
 					$renderer->doc .= $this->svg_format_embed($svglink, 'image:'.htmlspecialchars($svg_wiki_page), $svg_dimensions);
-					$renderer->doc .= html_wikilink($svg_wiki_page,'svg@'.$svg_wiki_page);
+					$renderer->doc .= '<small>'.html_wikilink($svg_wiki_page,'svg@'.$svg_wiki_page).'</small>';
         	return true;
 				}
 				if($data[0]==='{{SV') {
 					$svgenc = $this->svg_base64_encode(rawWiki($svg_wiki_page));
 					$renderer->doc .= $this->svg_format_embed($svgenc, 'image:'.htmlspecialchars($svg_wiki_page), $svg_dimensions);
-					$renderer->doc .= html_wikilink($svg_wiki_page,'SVG@'.$svg_wiki_page);
+					$renderer->doc .= '<small>'.html_wikilink($svg_wiki_page,'SVG@'.$svg_wiki_page).'</small>';
         	return true;
 				}
     }
