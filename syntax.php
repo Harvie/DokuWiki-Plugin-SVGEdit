@@ -70,6 +70,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				global $ID;
 
 				$svg_wiki_page = trim(substr($data[1], 6, -2)); //name of wiki page containing SVG image
+				resolve_pageid(getNS($ID),$svg_wiki_page,$exists); //resolve relative IDs
 
 				//detect image size for stupid browsers (like firefox) - ugly (fails if svg does not contain information about it's size)
 				$svg_dimensions = '';
