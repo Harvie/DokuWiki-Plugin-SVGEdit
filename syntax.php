@@ -57,12 +57,11 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 
 				//use object tag for stupid browsers (like firefox) - ugly (relies on browser identification)
 				$is_webkit= preg_match('/webkit/', strtolower($_SERVER['HTTP_USER_AGENT']));
-				if ($is_webkit)
-					$svgtag='img src';
-				else
-					$svgtag='object '.$svg_parameters.' data';
+				if ($is_webkit) $svgtag='img src';
+				else $svgtag='object '.$svg_parameters.' data';
+				$svgtag_close = array_shift(preg_split('/ /', $svgtag, 2));
 
-				return '<a href="'.$svglink.'" type="image/svg+xml" /><'.$svgtag.'="'.$svglink.'" alt="'.$title.'" title="'.$title.'" type="image/svg+xml" /></a>'."<br />";
+				return '<a href="'.$svglink.'" type="image/svg+xml" /><'.$svgtag.'="'.$svglink.'" alt="'.$title.'" title="'.$title.'" type="image/svg+xml">'."</$svgtag_close></a><br />";
 		}
 
     function render($format, &$renderer, $data) {
