@@ -10,9 +10,9 @@ script.src = svgeditor_path + 'embedapi.js';
 head.appendChild(script);
 
 function svgedit_load() {
-	var field = $('wiki__text');
-	if (!field)
-		return;
+	var field = jQuery('#wiki__text');
+	if (!field) return;
+	field = field[0];
 	var timeout = setTimeout('svgedit_load();', 500);	//load ASAP
 	window.svgedit.setSvgString(field.value) (function(a) {
 						  clearTimeout(timeout);
@@ -21,12 +21,15 @@ function svgedit_load() {
 }
 function svgedit_save(page) {
 	window.svgedit.getSvgString()(function(data) {
-				      var field = $('wiki__text');
+				      var field = jQuery('#wiki__text');
 				      if (!field) return;
-				      field.value = data; if (page) {
-				      field = $('edbtn__save'); field.click();}
+				      field = field[0];
+				      field.value = data; 
+				      if (page) {
+				      	field = jQuery('#edbtn__save'); 
+				      	field.click();
 				      }
-	) ;
+	}) ;
 }
 
 function showhide(elem) {
@@ -41,19 +44,19 @@ function insertAfter(newNode, preNode) {
 }
 
 var svgedit = null;
+
 function svgedit_init() {
-	var field = $('wiki__text');
-	if (!field)
-		return;
+	var field = jQuery('#wiki__text');
+	if (!field) return;
+	field = field[0];
 
 	//toggle view
 	showhide(field);
-	showhide($('tool__bar'));
-	showhide($('edbtn__save'));
+	showhide(jQuery('#tool__bar')[0]);
+	showhide(jQuery('#edbtn__save')[0]);
 
 	//lock
-	if ($('svg__edit'))
-		return;
+	if (jQuery('#svg__edit').length) return;
 
 	//create iframe
 
@@ -64,13 +67,14 @@ function svgedit_init() {
 	el.setAttribute("frameborder", "0");
 	el.setAttribute("width", "100%");
 	el.setAttribute("height", "70%");
-	el.setAttribute("style", "min-height: 400px;");
+	el.setAttribute("style", "min-height: 600px;");
 	insertAfter(el, field);
 
 	//create save button
-	field = $('edbtn__save');
-	if (!field)
-		return;
+	field = jQuery('#edbtn__save');
+	if (!field) return;
+	field = field[0];
+
 	el = document.createElement('input');
 	el.setAttribute("type", "button");
 	el.setAttribute("onclick", "svgedit_save(true)");
@@ -96,16 +100,18 @@ function svgedit_init() {
 	field.parentNode.insertBefore(el, field);
 
 	//create embedapi
-	window.svgedit = new embedded_svg_edit($('svg__edit'));
+	window.svgedit = new embedded_svg_edit(jQuery('#svg__edit')[0]);
 
 	//load image
 	svgedit_load();
-}
+};
 
-addInitEvent(function() {
-	     if (!$('wiki__text') || $('wiki__text').readOnly) return;
-	     var field = $('tool__bar');
-	     if (!field) return;
+
+jQuery(function() {
+	     if (!jQuery('#wiki__text').length || jQuery('#wiki__text').attr("readOnly")) return;
+	     var field = jQuery('#tool__bar');
+	     if (!field.length) return;
+	     field = field[0];
 	     field.style.float = 'left';
 	     var el = document.createElement('button');
 	     el.setAttribute("id", "TZT");
