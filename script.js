@@ -1,5 +1,5 @@
-var svgeditor_path = 'http://svg-edit.googlecode.com/svn/branches/stable/editor/';	//online stable
-//var svgeditor_path = 'http://svg-edit.googlecode.com/svn/trunk/editor/';	//online latest (unstable)
+var svgeditor_path = 'https://svg-edit.googlecode.com/svn/branches/stable/editor/';	//online stable
+//var svgeditor_path = 'https://svg-edit.googlecode.com/svn/trunk/editor/';	//online latest (unstable)
 //var svgeditor_path = DOKU_BASE+'lib/plugins/svgedit/svg-edit/';		//offline
 
 //load embedapi.js

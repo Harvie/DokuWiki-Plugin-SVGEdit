@@ -1,7 +1,7 @@
 base   svgedit
 author Thomas Mudrunka
 email  harvie[a]email_cz
-date   2014-05-14
+date   2014-05-20
 name   SVG-Edit plugin
 desc   A nice way, to create, store, edit, and embed SVG images in DokuWiki
 url    http://www.dokuwiki.org/plugin:svgedit
