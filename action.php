@@ -15,13 +15,13 @@ class action_plugin_svgedit extends DokuWiki_Action_Plugin {
                          'url'    => 'http://www.dokuwiki.org/plugin:svgedit'
                  );
 		}
- 
-    function register(&$controller) {
+
+    function register(Doku_Event_Handler $controller) {
         $controller->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this,
                                    '_hookdo');
     }
- 
-    function _hookdo(&$event, $param) {
+
+    function _hookdo(Doku_Event $event, $param) {
 			global $ID;
       if($event->data === 'export_svg' && auth_quickaclcheck($ID) >= AUTH_READ) {
 				header('Content-type: image/svg+xml');
