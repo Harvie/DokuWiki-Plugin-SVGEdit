@@ -43,7 +43,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				$this->Lexer->addSpecialPattern("<svg.+?</svg>", $mode, 'plugin_svgedit');
     } 
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
 				$type = substr($match,0,4);
         return array($type, $match); 
     }
@@ -64,7 +64,7 @@ class syntax_plugin_svgedit extends DokuWiki_Syntax_Plugin {
 				return '<a href="'.$svglink.'" type="image/svg+xml" /><'.$svgtag.'="'.$svglink.'" class="media'.$align.'" alt="'.$title.'" title="'.$title.'" type="image/svg+xml">'."</$svgtag_close></a>";
 		}
 
-    function render($format, &$renderer, $data) {
+    function render($format, Doku_Renderer $renderer, $data) {
 				if ($format!='xhtml') return;
 				global $ID;
 
