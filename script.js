@@ -1,4 +1,4 @@
-var svgeditor_path = 'https://raw.githubusercontent.com/SVG-Edit/svgedit/stable/editor/';	//online stable
+var svgeditor_path = 'https://cdn.rawgit.com/SVG-Edit/svgedit/stable/editor/';	//online stable
 //var svgeditor_path = 'https://raw.githubusercontent.com/SVG-Edit/svgedit/master/editor/';	//online latest (unstable)
 //var svgeditor_path = DOKU_BASE+'lib/plugins/svgedit/svg-edit/';		//offline
 
