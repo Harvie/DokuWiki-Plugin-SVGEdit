@@ -4,8 +4,8 @@ ScreenCast: http://www.youtube.com/watch?v=M-QW6a1ZFHA (very outdated version)
 See: http://www.dokuwiki.org/plugin:svgedit
 
 SVG-Edit
-  - homepage: http://code.google.com/p/svg-edit/
-  - bugtrack: http://code.google.com/p/svg-edit/issues/
+  - homepage: https://github.com/SVG-Edit/svgedit
+  - bugtrack: https://github.com/SVG-Edit/svgedit/issues
 
 Non-GIT Contributors:
 	- i.crowther@gmail.com
