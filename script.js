@@ -100,7 +100,7 @@ function svgedit_init() {
 	field.parentNode.insertBefore(el, field);
 
 	//create embedapi
-	window.svgedit = new embedded_svg_edit(jQuery('#svg__edit')[0]);
+	window.svgedit = new EmbeddedSVGEdit(jQuery('#svg__edit')[0]);
 
 	//load image
 	svgedit_load();
